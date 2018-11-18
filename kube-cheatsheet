@@ -1,0 +1,3 @@
+# convert cronJob to job
+kubectl create job <your-new-job-name> --from=cronjob/<name-of-deployed-cron-job> -n <name-space>
+
