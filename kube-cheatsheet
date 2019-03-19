@@ -21,3 +21,8 @@ kubectl patch cronjob/my-cron -p '{"spec":{"schedule": "16 03 * * *"}}'
 # get pods by condition
 kubectl get pods --field-selector=status.phase=Running 
 
+# scaling 
+kubectl scale --replicas=3 deployment/my-service
+kubectl autoscale deployment my-service --cpu-percent=50 --min=1 --max=9
+kubectl get hpa
+
