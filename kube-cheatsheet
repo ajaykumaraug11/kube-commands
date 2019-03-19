@@ -1,3 +1,23 @@
-# convert cronJob to job
+# exporting KUBECONFIG
+export KUBECONFIG=/path/namespace.config
+
+# convert cronJob to job / manually run cronjob
 kubectl create job <your-new-job-name> --from=cronjob/<name-of-deployed-cron-job> -n <name-space>
+
+# get POD name
+podName=$(kubectl get pods  | sed -n -e 's/\(my-service-[a-z0-9]\{1,10\}-[a-z0-9]\{5\}\).*/\1/p')
+echo $podName
+
+# get pods sort by timestamp
+kubectl get pods --sort-by=.metadata.creationTimestamp
+
+# delete pod based on conditions
+kubectl get pods  | grep -E 'ImagePullBackOff|ErrImagePull|Evicted|Error' | awk '{print $1}' | xargs kubectl delete pod --force
+kubectl get pods  | grep -v 'Completed' | awk '{print $1}' | xargs kubectl delete pod --force
+
+# change cron schedule
+kubectl patch cronjob/my-cron -p '{"spec":{"schedule": "16 03 * * *"}}'
+
+# get pods by condition
+kubectl get pods --field-selector=status.phase=Running 
 
