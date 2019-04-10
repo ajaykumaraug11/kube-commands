@@ -26,3 +26,11 @@ kubectl scale --replicas=3 deployment/my-service
 kubectl autoscale deployment my-service --cpu-percent=50 --min=1 --max=9
 kubectl get hpa
 
+# patch command
+kubectl patch cronjob/my-cron -p '{"spec":{"schedule": "00 02 * * *"}}'
+
+# print image info for deployments
+kubectl get deployment -o=jsonpath="{range .items[*]}{'\n'}{.metadata.name}{' '}{range .spec.template.spec.containers[*]}{.image}{' '}{end}{end}" | awk '!/^$/ {printf "%-30s|%-18s\n",$1,$2}'
+
+# update image
+kubectl set image deployment/my-deployment my-container=my-image:1.0.0-500
