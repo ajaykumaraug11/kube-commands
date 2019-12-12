@@ -34,3 +34,13 @@ kubectl get deployment -o=jsonpath="{range .items[*]}{'\n'}{.metadata.name}{' '}
 
 # update image
 kubectl set image deployment/my-deployment my-container=my-image:1.0.0-500
+
+# Unable to use a TTY - input is not a terminal or the right kind of file
+# use winpty
+winpty kubectl exec -it POD -c CONTAINER bash
+# file path as ARG use / in front
+winpty kubectl exec -it cat //usr/share/nginx/html/filename
+
+
+
+
